@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">T2G</string>
+
+    <string name="lcd_console_wrong">Input number!!</string>
+    <string name="lcd_console_correct">Check the console for an precise view</string>
+
+    <string name="exampleCode">)g!ld, j(!ad \"> h>£ gdol>!o!\" o!(!c>£</string>
+    <string name="infoCode">Tap on the screen\nto refresh the screen</string>
+    <string name="past_the_text">Past the text</string>
+    <string name="code">Code</string>
+    <string name="decode">Decode</string>
+    <string name="infoCounter">Click on the screen to start the countdown,\nclick on the clocks to set the time</string>
+    <string name="infoCounter2">Click on the screen to stop counters</string>
+    <string name="daysCounter">days</string>
+    <string name="hoursCounter">hours</string>
+    <string name="minutesCounter">minutes</string>
+    <string name="secondsCounter">seconds</string>
+</resources>
