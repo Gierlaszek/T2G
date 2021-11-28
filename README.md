@@ -1,5 +1,4 @@
-# T2G
- Create three exercises:
- - Clock count down
- - Code Breaker
- - LCD Display
+# Android app with:
+ - Clock count down - countdown timer with time settings
+ - Code Breaker - the ability to code and decode words according to the key
+ - LCD Display - display digits in the form seven-segments 
