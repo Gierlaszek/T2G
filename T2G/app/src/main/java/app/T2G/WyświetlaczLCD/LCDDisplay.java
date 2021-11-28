@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -41,6 +43,21 @@ public class LCDDisplay extends AppCompatActivity {
 
         input = findViewById(R.id.input);
         input.setHint("Input number");
+
+        InputFilter filter = new InputFilter() {
+            @Override
+            public CharSequence filter(CharSequence charSequence, int start, int end, Spanned spanned, int dstart, int dend) {
+                for(int i = start; i < end; i++){
+                    if(charSequence.charAt(i) == ',' || charSequence.charAt(i) == '.' || charSequence.charAt(i) == '-' || charSequence.charAt(i) == ' '){
+                        return "";
+                    }
+                }
+                return null;
+            }
+        };
+
+        input.setFilters(new InputFilter[]{ filter });
+
         output = findViewById(R.id.output);
         console = findViewById(R.id.consoleInfo);
 
