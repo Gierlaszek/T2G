@@ -21,9 +21,14 @@ import java.util.Map;
 
 import app.T2G.R;
 
-
+/**
+ * View and controller layer combined
+ */
 public class CodeBreaker extends AppCompatActivity {
 
+    /*
+    Variables
+     */
     private EditText input;
     private TextView output;
     private TextView info;
@@ -32,42 +37,15 @@ public class CodeBreaker extends AppCompatActivity {
     private LinearLayout main;
     private Button put;
 
-    private HashMap<String, String> codeMap = new HashMap<String, String>();
-    private Map<String, String> inverseMap;
+    private KeyWithAlphabet key;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_codebreaker);
-        codeMap.put("!", "a");
-        codeMap.put(")", "b");
-        codeMap.put("\"", "c");
-        codeMap.put("(", "d");
-        codeMap.put("£", "e");
-        codeMap.put("*", "f");
-        codeMap.put("%", "g");
-        codeMap.put("&", "h");
-        codeMap.put(">", "i");
-        codeMap.put("<", "j");
-        codeMap.put("@", "k");
-        codeMap.put("a", "l");
-        codeMap.put("b", "m");
-        codeMap.put("c", "n");
-        codeMap.put("d", "o");
-        codeMap.put("e", "p");
-        codeMap.put("f", "q");
-        codeMap.put("g", "r");
-        codeMap.put("h", "s");
-        codeMap.put("i", "t");
-        codeMap.put("j", "u");
-        codeMap.put("k", "v");
-        codeMap.put("l", "w");
-        codeMap.put("m", "x");
-        codeMap.put("n", "y");
-        codeMap.put("o", "z");
 
-        inverseMap = MapStream.of(codeMap).inverseMapping().collect();
-
+        key = new KeyWithAlphabet();
 
         put = findViewById(R.id.put);
         input = findViewById(R.id.input);
@@ -76,8 +54,12 @@ public class CodeBreaker extends AppCompatActivity {
         info = findViewById(R.id.consoleInfo);
         info.setText(R.string.infoCode);
 
+        /*
+        Set encode or decode mode
+         */
         mode = findViewById(R.id.mode);
         mode.setChecked(true);
+
         main = findViewById(R.id.mainCode);
 
         put.setOnClickListener(v -> {
@@ -86,6 +68,9 @@ public class CodeBreaker extends AppCompatActivity {
             display();
         });
 
+        /*
+        Hide keyboard
+         */
         main.setOnClickListener(v -> {
             display();
             InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -114,18 +99,16 @@ public class CodeBreaker extends AppCompatActivity {
 
         if(decode){
             for(int i = 0; i < text.length(); i++){
-                if(codeMap.containsKey(String.valueOf(text.charAt(i)))){
-                    outputString += codeMap.get(String.valueOf(text.charAt(i)));
+                if(key.checkDecodeMapContainsKey(text.charAt(i))){
+                    outputString += key.getDecodeChar(text.charAt(i));
                 }else{
                     outputString += text.charAt(i);
                 }
             }
         }else{
-            System.out.println(inverseMap);
             for(int i = 0; i < text.length(); i++){
-                if(inverseMap.containsKey(String.valueOf(text.charAt(i)))){
-                    System.out.println("true");
-                    outputString += inverseMap.get(String.valueOf(text.charAt(i)));
+                if(key.checkEncodeMapContainsKey(text.charAt(i))){
+                    outputString += key.getEncodeChar(text.charAt(i));
                 }else{
                     outputString += text.charAt(i);
                 }

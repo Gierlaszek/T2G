@@ -19,9 +19,15 @@ import android.widget.TextView;
 
 import app.T2G.R;
 
+/**
+ * Support for the single counter
+ */
 
 public class SingleCounter extends Fragment {
 
+    /*
+    Variables
+     */
     private TextView describeCounter;
     private TextView counter;
     private String describeCounterString = "";

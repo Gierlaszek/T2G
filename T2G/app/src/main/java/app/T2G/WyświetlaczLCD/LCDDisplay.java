@@ -16,14 +16,21 @@ import java.util.ArrayList;
 
 import app.T2G.R;
 
+/**
+ * View and controller layer combined
+ */
 
 public class LCDDisplay extends AppCompatActivity {
 
+    /*
+    Variables
+     */
     EditText input;
     TextView output;
     TextView console;
     LinearLayout main;
     String text;
+    SevenSegmentDisplay display;
 
     ArrayList<ArrayList<String>> outputExample = new ArrayList<>();
 
@@ -37,96 +44,9 @@ public class LCDDisplay extends AppCompatActivity {
         output = findViewById(R.id.output);
         console = findViewById(R.id.consoleInfo);
 
-        outputExample.add(new ArrayList<String>(){
-            {
-                add("  _  ");
-                add(" | | ");
-                add(" |_| ");
-            }
-        });//0
-
-
-        outputExample.add(new ArrayList<String>(){
-            {
-                add("    ");
-                add("  | ");
-                add("  | ");
-            }
-        }); //1
-
-
-        outputExample.add(new ArrayList<String>(){
-            {
-                add("  _  ");
-                add("  _| ");
-                add(" |_  ");
-            }
-        }); //2
-
-
-        outputExample.add(new ArrayList<String>(){
-            {
-                add(" _  ");
-                add(" _| ");
-                add(" _| ");
-            }
-        }); //3
-
-
-        outputExample.add(new ArrayList<String>(){
-            {
-                add("     ");
-                add(" |_| ");
-                add("   | ");
-            }
-        }); //4
-
-
-        outputExample.add(new ArrayList<String>(){
-            {
-                add("  _  ");
-                add(" |_  ");
-                add("  _| ");
-            }
-        }); //5
-
-
-        outputExample.add(new ArrayList<String>(){
-            {
-                add("  _  ");
-                add(" |_  ");
-                add(" |_| ");
-            }
-        }); //6
-
-
-        outputExample.add(new ArrayList<String>(){
-            {
-                add(" _  ");
-                add("  | ");
-                add("  | ");
-            }
-        }); //7
-
-
-        outputExample.add(new ArrayList<String>(){
-            {
-                add("  _  ");
-                add(" |_| ");
-                add(" |_| ");
-            }
-        }); //8
-
-
-        outputExample.add(new ArrayList<String>(){
-            {
-                add("  _  ");
-                add(" |_| ");
-                add("  _| ");
-            }
-        }); //9
-
         console.setVisibility(View.INVISIBLE);
+
+        display = new SevenSegmentDisplay();
 
         main = findViewById(R.id.mainLCD);
         main.setOnClickListener(v -> {
@@ -157,16 +77,15 @@ public class LCDDisplay extends AppCompatActivity {
             String outputStringThirdLine = "";
             for(int i = 0; i < text.length(); i++) {
                 int x = Character.getNumericValue(text.charAt(i));
-                outputStringFirstLine += outputExample.get(x).get(0);
-                outputStringSecondLine += outputExample.get(x).get(1);
-                outputStringThirdLine += outputExample.get(x).get(2);
+                outputStringFirstLine += display.getSegment(x, 0);
+                outputStringSecondLine += display.getSegment(x, 1);
+                outputStringThirdLine += display.getSegment(x, 2);
             }
             output.setText(outputStringFirstLine + "\n" + outputStringSecondLine + "\n" + outputStringThirdLine);
             console.setText(R.string.lcd_console_correct);
             System.out.println(outputStringFirstLine + "\n" + outputStringSecondLine + "\n" + outputStringThirdLine);
         }else{
             output.setText("");
-            System.out.println("Input number!!");
             console.setText(R.string.lcd_console_wrong);
         }
     }
