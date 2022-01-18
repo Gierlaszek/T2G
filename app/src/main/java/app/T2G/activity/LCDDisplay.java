@@ -38,7 +38,6 @@ public class LCDDisplay extends AppCompatActivity {
         setContentView(R.layout.activity_lcddisplay);
 
         input = findViewById(R.id.input);
-        input.setHint("Input number");
 
         InputFilter filter = (charSequence, start, end, spanned, dstart, dend) -> {
             for(int i = start; i < end; i++){
@@ -80,8 +79,8 @@ public class LCDDisplay extends AppCompatActivity {
             StringBuilder outputStringFirstLine = new StringBuilder();
             StringBuilder outputStringSecondLine = new StringBuilder();
             StringBuilder outputStringThirdLine = new StringBuilder();
-            for(int i = 0; i < text.length(); i++) {
-                int x = Character.getNumericValue(text.charAt(i));
+            for(char c: text.toCharArray()) {
+                int x = Character.getNumericValue(c);
                 outputStringFirstLine.append(display.getSegment(x, 0));
                 outputStringSecondLine.append(display.getSegment(x, 1));
                 outputStringThirdLine.append(display.getSegment(x, 2));

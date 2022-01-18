@@ -29,8 +29,6 @@ public class CodeBreaker extends AppCompatActivity {
     private EditText input;
     private TextView output;
     private SwitchMaterial mode;
-    private LinearLayout main;
-
     private KeyWithAlphabet key;
 
 
@@ -54,7 +52,7 @@ public class CodeBreaker extends AppCompatActivity {
         mode = findViewById(R.id.mode);
         mode.setChecked(true);
 
-        main = findViewById(R.id.mainCode);
+        LinearLayout main = findViewById(R.id.mainCode);
 
         put.setOnClickListener(v -> {
             input.setText(output.getText());
@@ -86,21 +84,11 @@ public class CodeBreaker extends AppCompatActivity {
         String text = input.getText().toString();
         boolean decode = mode.isChecked();
 
-        if(decode){
-            for(int i = 0; i < text.length(); i++){
-                if(key.checkDecodeMapContainsKey(text.charAt(i))){
-                    outputString.append(key.getDecodeChar(text.charAt(i)));
-                }else{
-                    outputString.append(text.charAt(i));
-                }
-            }
-        }else{
-            for(int i = 0; i < text.length(); i++){
-                if(key.checkEncodeMapContainsKey(text.charAt(i))){
-                    outputString.append(key.getEncodeChar(text.charAt(i)));
-                }else{
-                    outputString.append(text.charAt(i));
-                }
+        for(char c: text.toCharArray()){
+            if(key.checkDecodeMapContainsKey(c) || key.checkEncodeMapContainsKey(c)){
+                outputString.append(decode ? key.getDecodeChar(c) : key.getEncodeChar(c));
+            }else{
+                outputString.append(c);
             }
         }
         output.setText(outputString.toString());

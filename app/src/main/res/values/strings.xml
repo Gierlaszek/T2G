@@ -26,4 +26,5 @@
     <string name="discard">Discard</string>
     <string name="days">days</string>
     <string name="image_description">View of single counter</string>
+    <string name="hint_lcd_display">Input number</string>
 </resources>
