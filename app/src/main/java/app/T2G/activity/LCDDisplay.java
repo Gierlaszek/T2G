@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 
 import app.T2G.R;
-import app.T2G.utils.HideKeyboard;
+import app.T2G.utils.Utils;
 import app.T2G.utils.SevenSegmentDisplay;
 
 /**
@@ -25,12 +25,10 @@ public class LCDDisplay extends AppCompatActivity {
     /*
     Variables
      */
-    EditText input;
-    TextView output;
-    TextView console;
-    LinearLayout main;
-    String text;
-    SevenSegmentDisplay display;
+    private EditText input;
+    private TextView output;
+    private TextView console;
+    private SevenSegmentDisplay display;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +36,31 @@ public class LCDDisplay extends AppCompatActivity {
         setContentView(R.layout.activity_lcddisplay);
 
         input = findViewById(R.id.input);
+        input.setFilters(new InputFilter[]{ createFilter() });
 
-        InputFilter filter = (charSequence, start, end, spanned, dstart, dend) -> {
+        output = findViewById(R.id.output);
+        console = findViewById(R.id.consoleInfo);
+        console.setVisibility(View.INVISIBLE);
+
+        display = new SevenSegmentDisplay();
+
+        LinearLayout main = findViewById(R.id.mainLCD);
+        main.setOnClickListener(v -> {
+            display();
+            Utils.hideSoftKeyboard(this);
+        });
+
+        input.setOnEditorActionListener((textView, i, event) -> {
+            if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (i == EditorInfo.IME_ACTION_DONE)) {
+                display();
+                Utils.hideSoftKeyboard(this);
+            }
+            return false;
+        });
+    }
+
+    private InputFilter createFilter(){
+        return (charSequence, start, end, spanned, dstart, dend) -> {
             for(int i = start; i < end; i++){
                 if(charSequence.charAt(i) == ',' || charSequence.charAt(i) == '.' || charSequence.charAt(i) == '-' || charSequence.charAt(i) == ' '){
                     return "";
@@ -47,34 +68,11 @@ public class LCDDisplay extends AppCompatActivity {
             }
             return null;
         };
-
-        input.setFilters(new InputFilter[]{ filter });
-
-        output = findViewById(R.id.output);
-        console = findViewById(R.id.consoleInfo);
-
-        console.setVisibility(View.INVISIBLE);
-
-        display = new SevenSegmentDisplay();
-
-        main = findViewById(R.id.mainLCD);
-        main.setOnClickListener(v -> {
-            display();
-            HideKeyboard.hideSoftKeyboard(this);
-        });
-
-        input.setOnEditorActionListener((textView, i, event) -> {
-            if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (i == EditorInfo.IME_ACTION_DONE)) {
-                display();
-                HideKeyboard.hideSoftKeyboard(this);
-            }
-            return false;
-        });
     }
 
     private void display(){
         console.setVisibility(View.VISIBLE);
-        text = input.getText().toString();
+        String text = input.getText().toString();
         if(!text.equals("")){
             StringBuilder outputStringFirstLine = new StringBuilder();
             StringBuilder outputStringSecondLine = new StringBuilder();

@@ -61,6 +61,10 @@ public class SingleCounter extends Fragment {
         counter.setText(String.valueOf(newValue));
     }
 
+    public boolean isStopped(){
+        return getValue() == 0;
+    }
+
     public int getValue() { return currentValue; }
 
     public void decreaseValue(){

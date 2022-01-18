@@ -7,45 +7,33 @@ import android.os.Bundle;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-
 import app.T2G.R;
 import app.T2G.counter.Counters;
-import app.T2G.counter.Dialog;
+import app.T2G.counter.DialogCounters;
 
 public class CounterMain extends AppCompatActivity {
 
     /*
     Variables
      */
-    private TextView info;
+    private Counters counters;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_counter_main);
+        counters = new Counters();
+        setFragments();
 
-        Counters counters = new Counters();
-
-        LinearLayout main = findViewById(R.id.mainCounter);
-        info = findViewById(R.id.info);
         LinearLayout countersLayout = findViewById(R.id.counters);
         countersLayout.setOnClickListener(v -> {
             if(!counters.getCounterState()){
-                new Dialog(this, counters);
+                new DialogCounters(this, counters);
             }
         });
 
-        /*
-        Settings of three counters
-         */
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.daysFrame, counters.getFirstCounter());
-        ft.replace(R.id.hoursFrame, counters.getSecondCounter());
-        ft.replace(R.id.minutesFrame, counters.getThirdCounter());
-
-        ft.commit();
-
-
+        LinearLayout main = findViewById(R.id.mainCounter);
+        TextView info = findViewById(R.id.info);
         main.setOnClickListener(v -> {
             if(counters.getCounterState()){
                 counters.stopTimer();
@@ -57,5 +45,16 @@ public class CounterMain extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    /*
+    Settings of three counters
+    */
+    private void setFragments(){
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.daysFrame, counters.getFirstCounter());
+        ft.replace(R.id.hoursFrame, counters.getSecondCounter());
+        ft.replace(R.id.minutesFrame, counters.getThirdCounter());
+        ft.commit();
     }
 }

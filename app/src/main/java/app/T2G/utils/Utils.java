@@ -3,7 +3,7 @@ package app.T2G.utils;
 import android.app.Activity;
 import android.view.inputmethod.InputMethodManager;
 
-public class HideKeyboard {
+public class Utils {
 
     public static void hideSoftKeyboard(Activity activity){
         InputMethodManager inputMethodManager =

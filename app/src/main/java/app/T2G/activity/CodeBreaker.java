@@ -2,11 +2,9 @@ package app.T2G.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -15,7 +13,7 @@ import android.widget.TextView;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import app.T2G.R;
-import app.T2G.utils.HideKeyboard;
+import app.T2G.utils.Utils;
 import app.T2G.utils.KeyWithAlphabet;
 
 /**
@@ -26,33 +24,34 @@ public class CodeBreaker extends AppCompatActivity {
     /*
     Variables
      */
+    private Button put;
     private EditText input;
     private TextView output;
+    private TextView info;
     private SwitchMaterial mode;
     private KeyWithAlphabet key;
-
+    private LinearLayout main;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_codebreaker);
 
-        key = new KeyWithAlphabet();
-
-        Button put = findViewById(R.id.put);
         input = findViewById(R.id.input);
-        input.setText(R.string.exampleCode);
         output = findViewById(R.id.output);
-        TextView info = findViewById(R.id.consoleInfo);
+        info = findViewById(R.id.consoleInfo);
+        put = findViewById(R.id.put);
+        main = findViewById(R.id.mainCode);
+
+        init();
+
+        key = new KeyWithAlphabet();
+        display();
+    }
+
+    private void init(){
+        input.setText(R.string.exampleCode);
         info.setText(R.string.infoCode);
-
-        /*
-        Set encode or decode mode
-         */
-        mode = findViewById(R.id.mode);
-        mode.setChecked(true);
-
-        LinearLayout main = findViewById(R.id.mainCode);
 
         put.setOnClickListener(v -> {
             input.setText(output.getText());
@@ -60,23 +59,24 @@ public class CodeBreaker extends AppCompatActivity {
             display();
         });
 
-        /*
-        Hide keyboard
-         */
         main.setOnClickListener(v -> {
             display();
-            HideKeyboard.hideSoftKeyboard(this);
+            Utils.hideSoftKeyboard(this);
         });
+
+        /*
+        Set encode or decode mode
+         */
+        mode = findViewById(R.id.mode);
+        mode.setChecked(true);
 
         input.setOnEditorActionListener((textView, i, event) -> {
             if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (i == EditorInfo.IME_ACTION_DONE)) {
                 display();
-                HideKeyboard.hideSoftKeyboard(this);
+                Utils.hideSoftKeyboard(this);
             }
             return false;
         });
-
-        display();
     }
 
     private void display(){

@@ -75,36 +75,45 @@ public class Counters {
                             extraSeconds--;
                         }else if(extraSeconds == 0){
                             extraSeconds = 59;
-                            if(thirdCounter.getValue() > 0){ //minutes
-                                thirdCounter.decreaseValue();
-                            }else{
-                                if(secondCounter.getValue() > 0){ //hours
-                                    thirdCounter.changeValue(59); //minutes
-                                    secondCounter.decreaseValue();
-                                }else if(firstCounter.getValue() > 0){ //days
-                                    firstCounter.decreaseValue();
-                                    changeCountersName();
-                                }
-                            }
+                            decreaseCountersWithDay();
                         }
                     }else{
-                        if(thirdCounter.getValue() == 0){ //seconds
-                            if(secondCounter.getValue() > 0){  //minutes
-                                thirdCounter.changeValue(59); //seconds
-                                secondCounter.decreaseValue();
-                            }else if(firstCounter.getValue() > 0){ //hours
-                                secondCounter.changeValue(59); //minutes
-                                thirdCounter.changeValue(59);
-                                firstCounter.decreaseValue();
-                            }
-                        }else{
-                            thirdCounter.decreaseValue(); //seconds
-                        }
+                        decreaseCountersWithoutDay();
                     }
                     stopCounters(complete);
                 });
             }
         }, 1000, 1000);
+    }
+
+
+    private void decreaseCountersWithDay(){
+        if(thirdCounter.getValue() > 0){ //minutes
+            thirdCounter.decreaseValue();
+        }else{
+            if(secondCounter.getValue() > 0){ //hours
+                thirdCounter.changeValue(59); //minutes
+                secondCounter.decreaseValue();
+            }else if(firstCounter.getValue() > 0){ //days
+                firstCounter.decreaseValue();
+                changeCountersName();
+            }
+        }
+    }
+
+    private void decreaseCountersWithoutDay(){
+        if(thirdCounter.getValue() == 0){ //seconds
+            if(secondCounter.getValue() > 0){  //minutes
+                thirdCounter.changeValue(59); //seconds
+                secondCounter.decreaseValue();
+            }else if(firstCounter.getValue() > 0){ //hours
+                secondCounter.changeValue(59); //minutes
+                thirdCounter.changeValue(59);
+                firstCounter.decreaseValue();
+            }
+        }else{
+            thirdCounter.decreaseValue(); //seconds
+        }
     }
 
     /*
@@ -131,15 +140,10 @@ public class Counters {
     }
 
     private void stopCounters(onComplete complete) {
-        if (firstCounter.getDescribe().equals("days")) {
-            if (firstCounter.getValue() == 0 && secondCounter.getValue() == 0 && thirdCounter.getValue() == 0 && extraSeconds == 0) {
+        if(firstCounter.isStopped() && secondCounter.isStopped() && thirdCounter.isStopped()){
+            if(!firstCounter.getDescribe().equals("days")) extraSeconds = 0;
+            if(extraSeconds == 0){
                 stopTimer();
-                complete.complete();
-            }
-        } else {
-            if (firstCounter.getValue() == 0 && secondCounter.getValue() == 0 && thirdCounter.getValue() == 0) {
-                stopTimer();
-                extraSeconds = 0;
                 complete.complete();
             }
         }
@@ -149,26 +153,16 @@ public class Counters {
    Setting new values on the counters
     */
     public void setNewValue(int daysValue, int hoursValue, int minutesValue, int secondsValue){
-        if(daysValue > 0){
-            firstCounter.changeValue(daysValue);
-            firstCounter.changeDescribe("days");
+        //Change first counter
+        firstCounter.changeValue(daysValue > 0 ? daysValue : hoursValue);
+        firstCounter.changeDescribe(daysValue > 0 ? "days" : "hours");
 
-            secondCounter.changeValue(hoursValue);
-            secondCounter.changeDescribe("hours");
+        secondCounter.changeValue(daysValue > 0 ? hoursValue : minutesValue);
+        secondCounter.changeDescribe(daysValue > 0 ? "hours" : "minutes");
 
-            thirdCounter.changeValue(minutesValue);
-            thirdCounter.changeDescribe("minutes");
-            extraSeconds = secondsValue;
-        }else{
-            firstCounter.changeValue(hoursValue);
-            firstCounter.changeDescribe("hours");
-
-            secondCounter.changeValue(minutesValue);
-            secondCounter.changeDescribe("minutes");
-
-            thirdCounter.changeValue(secondsValue);
-            thirdCounter.changeDescribe("seconds");
-        }
+        thirdCounter.changeValue(daysValue > 0 ? minutesValue : secondsValue);
+        thirdCounter.changeDescribe(daysValue > 0 ? "minutes" : "seconds");
+        if(daysValue > 0) extraSeconds = secondsValue;
     }
 
     public interface onComplete{
