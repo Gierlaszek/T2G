@@ -10,7 +10,7 @@ import java.util.Map;
  */
 
 public class KeyWithAlphabet {
-    private HashMap<String, String> codeMap = new HashMap<String, String>();
+    private final HashMap<String, String> codeMap = new HashMap<String, String>();
     private Map<String, String> inverseMap;
 
     public KeyWithAlphabet(){

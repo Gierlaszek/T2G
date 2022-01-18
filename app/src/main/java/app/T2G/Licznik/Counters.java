@@ -132,13 +132,13 @@ public class Counters {
         if (firstCounter.getDescribe().equals("days")) {
             if (firstCounter.getValue() == 0 && secondCounter.getValue() == 0 && thirdCounter.getValue() == 0 && extraSeconds == 0) {
                 stopTimer();
-                complete.onComplete();
+                complete.complete();
             }
         } else {
             if (firstCounter.getValue() == 0 && secondCounter.getValue() == 0 && thirdCounter.getValue() == 0) {
                 stopTimer();
                 extraSeconds = 0;
-                complete.onComplete();
+                complete.complete();
             }
         }
     }
@@ -170,6 +170,6 @@ public class Counters {
     }
 
     public interface onComplete{
-        void onComplete();
+        void complete();
     }
 }

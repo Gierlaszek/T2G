@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.InputFilter;
-import android.text.Spanned;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -14,7 +13,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 
 import app.T2G.R;
 
@@ -34,8 +32,6 @@ public class LCDDisplay extends AppCompatActivity {
     String text;
     SevenSegmentDisplay display;
 
-    ArrayList<ArrayList<String>> outputExample = new ArrayList<>();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,16 +40,13 @@ public class LCDDisplay extends AppCompatActivity {
         input = findViewById(R.id.input);
         input.setHint("Input number");
 
-        InputFilter filter = new InputFilter() {
-            @Override
-            public CharSequence filter(CharSequence charSequence, int start, int end, Spanned spanned, int dstart, int dend) {
-                for(int i = start; i < end; i++){
-                    if(charSequence.charAt(i) == ',' || charSequence.charAt(i) == '.' || charSequence.charAt(i) == '-' || charSequence.charAt(i) == ' '){
-                        return "";
-                    }
+        InputFilter filter = (charSequence, start, end, spanned, dstart, dend) -> {
+            for(int i = start; i < end; i++){
+                if(charSequence.charAt(i) == ',' || charSequence.charAt(i) == '.' || charSequence.charAt(i) == '-' || charSequence.charAt(i) == ' '){
+                    return "";
                 }
-                return null;
             }
+            return null;
         };
 
         input.setFilters(new InputFilter[]{ filter });
@@ -72,16 +65,13 @@ public class LCDDisplay extends AppCompatActivity {
             imm.hideSoftInputFromWindow(main.getWindowToken(), 0);
         });
 
-        input.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent event) {
-                if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (i == EditorInfo.IME_ACTION_DONE)) {
-                    display();
-                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(main.getWindowToken(), 0);
-                }
-                return false;
+        input.setOnEditorActionListener((textView, i, event) -> {
+            if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (i == EditorInfo.IME_ACTION_DONE)) {
+                display();
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(main.getWindowToken(), 0);
             }
+            return false;
         });
     }
 
@@ -89,18 +79,27 @@ public class LCDDisplay extends AppCompatActivity {
         console.setVisibility(View.VISIBLE);
         text = input.getText().toString();
         if(!text.equals("")){
-            String outputStringFirstLine = "";
-            String outputStringSecondLine = "";
-            String outputStringThirdLine = "";
+            StringBuilder outputStringFirstLine = new StringBuilder();
+            StringBuilder outputStringSecondLine = new StringBuilder();
+            StringBuilder outputStringThirdLine = new StringBuilder();
             for(int i = 0; i < text.length(); i++) {
                 int x = Character.getNumericValue(text.charAt(i));
-                outputStringFirstLine += display.getSegment(x, 0);
-                outputStringSecondLine += display.getSegment(x, 1);
-                outputStringThirdLine += display.getSegment(x, 2);
+                outputStringFirstLine.append(display.getSegment(x, 0));
+                outputStringSecondLine.append(display.getSegment(x, 1));
+                outputStringThirdLine.append(display.getSegment(x, 2));
             }
-            output.setText(outputStringFirstLine + "\n" + outputStringSecondLine + "\n" + outputStringThirdLine);
+            output.setText(getString(R.string.lcd_output_text,
+                    outputStringFirstLine.toString(),
+                    outputStringSecondLine.toString(),
+                    outputStringThirdLine.toString()));
             console.setText(R.string.lcd_console_correct);
-            System.out.println(outputStringFirstLine + "\n" + outputStringSecondLine + "\n" + outputStringThirdLine);
+            /*
+            Display text in console
+             */
+            System.out.println(getString(R.string.lcd_output_text,
+                    outputStringFirstLine.toString(),
+                    outputStringSecondLine.toString(),
+                    outputStringThirdLine.toString()));
         }else{
             output.setText("");
             console.setText(R.string.lcd_console_wrong);

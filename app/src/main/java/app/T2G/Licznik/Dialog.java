@@ -112,9 +112,7 @@ public class Dialog {
         });
 
         TextView discard = dialog.findViewById(R.id.discard);
-        discard.setOnClickListener(v -> {
-            dialog.dismiss();
-        });
+        discard.setOnClickListener(v -> dialog.dismiss());
 
         dialog.show();
     }

@@ -5,11 +5,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.widget.LinearLayout;
-import android.widget.NumberPicker;
 import android.widget.TextView;
 
-import java.util.Timer;
-import java.util.TimerTask;
 
 import app.T2G.R;
 
@@ -19,9 +16,6 @@ public class CounterMain extends AppCompatActivity {
     Variables
      */
     private TextView info;
-    private LinearLayout main;
-    private LinearLayout countersLayout;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +24,9 @@ public class CounterMain extends AppCompatActivity {
 
         Counters counters = new Counters();
 
-        main = findViewById(R.id.mainCounter);
+        LinearLayout main = findViewById(R.id.mainCounter);
         info = findViewById(R.id.info);
-        countersLayout = findViewById(R.id.counters);
+        LinearLayout countersLayout = findViewById(R.id.counters);
         countersLayout.setOnClickListener(v -> {
             if(!counters.getCounterState()){
                 new Dialog(this, counters);

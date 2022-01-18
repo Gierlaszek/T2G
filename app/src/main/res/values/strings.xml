@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">T2G</string>
 
+    <string name="lcd_output_text">%1$s \n %2$s \n %3$s \n</string>
     <string name="lcd_console_wrong">Input number!!</string>
     <string name="lcd_console_correct">Check the console for an precise view</string>
 
@@ -20,4 +21,9 @@
     <string name="code_breaker">Code breaker</string>
     <string name="counter">counter</string>
     <string name="lcd_display">LCD Display</string>
+    <string name="wrong_input">Wrong input!!</string>
+    <string name="accept">Accept</string>
+    <string name="discard">Discard</string>
+    <string name="days">days</string>
+    <string name="image_description">View of single counter</string>
 </resources>
