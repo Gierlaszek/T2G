@@ -10,13 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.T2G">
         <activity
-            android:name=".WyświetlaczLCD.LCDDisplay"
+            android:name=".activity.LCDDisplay"
             android:exported="true" />
         <activity
-            android:name=".ŁamaczKodu.CodeBreaker"
+            android:name=".activity.CodeBreaker"
             android:exported="true" />
         <activity
-            android:name=".Licznik.CounterMain"
+            android:name=".activity.CounterMain"
             android:exported="true" />
         <activity
             android:name=".MainActivity"

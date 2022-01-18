@@ -1,4 +1,4 @@
-package app.T2G.ŁamaczKodu;
+package app.T2G.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,6 +15,8 @@ import android.widget.TextView;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import app.T2G.R;
+import app.T2G.utils.HideKeyboard;
+import app.T2G.utils.KeyWithAlphabet;
 
 /**
  * View and controller layer combined
@@ -65,15 +67,13 @@ public class CodeBreaker extends AppCompatActivity {
          */
         main.setOnClickListener(v -> {
             display();
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(main.getWindowToken(), 0);
+            HideKeyboard.hideSoftKeyboard(this);
         });
 
         input.setOnEditorActionListener((textView, i, event) -> {
             if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (i == EditorInfo.IME_ACTION_DONE)) {
                 display();
-                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(main.getWindowToken(), 0);
+                HideKeyboard.hideSoftKeyboard(this);
             }
             return false;
         });

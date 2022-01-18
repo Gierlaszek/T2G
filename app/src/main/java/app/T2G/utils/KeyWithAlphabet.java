@@ -1,4 +1,4 @@
-package app.T2G.ŁamaczKodu;
+package app.T2G.utils;
 
 import com.codepoetics.protonpack.maps.MapStream;
 

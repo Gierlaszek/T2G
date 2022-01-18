@@ -6,9 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
-import app.T2G.Licznik.CounterMain;
-import app.T2G.WyświetlaczLCD.LCDDisplay;
-import app.T2G.ŁamaczKodu.CodeBreaker;
+import app.T2G.activity.CounterMain;
+import app.T2G.activity.LCDDisplay;
+import app.T2G.activity.CodeBreaker;
 
 public class MainActivity extends AppCompatActivity {
 

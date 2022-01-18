@@ -1,20 +1,20 @@
-package app.T2G.WyświetlaczLCD;
+package app.T2G.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
 import app.T2G.R;
+import app.T2G.utils.HideKeyboard;
+import app.T2G.utils.SevenSegmentDisplay;
 
 /**
  * View and controller layer combined
@@ -61,15 +61,13 @@ public class LCDDisplay extends AppCompatActivity {
         main = findViewById(R.id.mainLCD);
         main.setOnClickListener(v -> {
             display();
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(main.getWindowToken(), 0);
+            HideKeyboard.hideSoftKeyboard(this);
         });
 
         input.setOnEditorActionListener((textView, i, event) -> {
             if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (i == EditorInfo.IME_ACTION_DONE)) {
                 display();
-                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(main.getWindowToken(), 0);
+                HideKeyboard.hideSoftKeyboard(this);
             }
             return false;
         });

@@ -1,4 +1,4 @@
-package app.T2G.Licznik;
+package app.T2G.counter;
 
 import android.content.Context;
 import android.widget.NumberPicker;

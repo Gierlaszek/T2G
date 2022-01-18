@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:background="@drawable/gradient"
     android:id="@+id/mainCode"
-    tools:context=".ŁamaczKodu.CodeBreaker">
+    tools:context=".activity.CodeBreaker">
 
     <EditText
         android:id="@+id/input"

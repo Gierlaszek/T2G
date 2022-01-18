@@ -1,4 +1,4 @@
-package app.T2G.Licznik;
+package app.T2G.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 
 import app.T2G.R;
+import app.T2G.counter.Counters;
+import app.T2G.counter.Dialog;
 
 public class CounterMain extends AppCompatActivity {
 

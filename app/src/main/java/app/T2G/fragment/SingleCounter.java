@@ -1,4 +1,4 @@
-package app.T2G.Licznik;
+package app.T2G.fragment;
 
 import android.os.Bundle;
 

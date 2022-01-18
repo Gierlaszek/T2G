@@ -1,4 +1,4 @@
-package app.T2G.WyświetlaczLCD;
+package app.T2G.utils;
 
 import java.util.ArrayList;
 

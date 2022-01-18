@@ -1,8 +1,10 @@
-package app.T2G.Licznik;
+package app.T2G.counter;
 
 import android.app.Activity;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import app.T2G.fragment.SingleCounter;
 
 public class Counters {
 
