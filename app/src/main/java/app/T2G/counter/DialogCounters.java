@@ -40,13 +40,8 @@ public class DialogCounters {
         secondsPicker.setMaxValue(59);
         secondsPicker.setMinValue(0);
 
-         /*
-        day shift causes the hours shift etc
-         */
         hoursPicker.setOnValueChangedListener((numberPicker, i, i1) -> onValueChangeListener(i, i1, 23, 23,2));
-
         minutesPicker.setOnValueChangedListener((numberPicker, i, i1) -> onValueChangeListener(i, i1, 59, 23, 1));
-
         secondsPicker.setOnValueChangedListener((numberPicker, i, i1) -> onValueChangeListener(i, i1, 59, 59, 0));
 
         pickerList.add(minutesPicker);
@@ -55,6 +50,11 @@ public class DialogCounters {
     }
 
 
+    /**
+     * Increase the value of number picker
+     * @param positionOfPicker determines which number picker should actually be increased
+     * @param maxValue specifies the maximum value to which number picker can grow
+     */
     private void increaseValue(int positionOfPicker, int maxValue){
         NumberPicker currentPicker = pickerList.get(positionOfPicker);
         if(currentPicker.getValue() == maxValue){
@@ -67,7 +67,10 @@ public class DialogCounters {
         currentPicker.setValue(currentPicker.getValue() + 1);
     }
 
-
+    /**
+     * Decrease the value of number picker
+     * @param positionOfPicker determines which number picker should actually be decremented
+     */
     private void decreaseValue(int positionOfPicker){
         if(positionOfPicker < 3){
             NumberPicker currentPicker = pickerList.get(positionOfPicker);
@@ -85,6 +88,14 @@ public class DialogCounters {
         }
     }
 
+    /**
+     * Function to change the value of number picker
+     * @param i old value
+     * @param i1 new value
+     * @param maxValue The maximum value of the current number picker
+     * @param maxValueOfNextPicker The maximum value of the next number picker
+     * @param positionOfPicker Determines which number picker is used
+     */
     private void onValueChangeListener(int i, int i1, int maxValue, int maxValueOfNextPicker, int positionOfPicker){
         if(i1 == 0 && i == maxValue){
             increaseValue(positionOfPicker, maxValueOfNextPicker);
